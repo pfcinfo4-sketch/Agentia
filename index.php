@@ -119,7 +119,7 @@ if (isset($_GET["logout"])) {
                 return;
             }
 
-            fetch("https://n8n-9-dtnb.onrender.com/webhook-test/student-log", {
+            fetch("https://n8n-6-k7ev.onrender.com/webhook-test/agentia", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -163,6 +163,7 @@ if (isset($_GET["logout"])) {
 
 </body>
 </html>
+
 
 
 
