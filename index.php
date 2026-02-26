@@ -3,8 +3,8 @@ session_start();
 
 /* ============================== CONFIGURATION SUPABASE ================================= */
 
-$project_url = "https://uhqqzlpaybcyxrepisgi.supabase.co";
-$api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocXF6bHBheWJjeXhyZXBpc2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4NDAyNzgsImV4cCI6MjA4NjQxNjI3OH0.LNQMIQs7euI7-4MMJWU_maqT6WdXq6lWuueCtF3kE24";
+$project_url = "https://xrsebcwlbekugvpwqcii.supabase.co";
+$api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhyc2ViY3dsYmVrdWd2cHdxY2lpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTkxNzksImV4cCI6MjA4NzYzNTE3OX0.laxq2_POjoitWv8J0RQNo5SiBXvs2yzmtAaoxWje7Vo";
 
 /* ============================== LOGIN SUPABASE ================================= */
 
@@ -13,7 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $email = trim($_POST["email"]);
     $password_input = trim($_POST["password"]);
 
-    $url = $project_url . "/rest/v1/login?select=*";
+    // IMPORTANT : table = student
+    $url = $project_url . "/rest/v1/student?select=*";
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -33,12 +34,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
 
     if (is_array($data)) {
         foreach ($data as $user) {
+
             if (
                 trim($user["email"]) === $email &&
                 trim($user["password"]) === $password_input
             ) {
-                $_SESSION["student_id"] = $user["Matricule"];
+
+                $_SESSION["student_id"] = $user["student_id"];
+                $_SESSION["first_name"] = $user["first_name"];
+                $_SESSION["last_name"] = $user["last_name"];
                 $_SESSION["email"] = $user["email"];
+
                 $login_success = true;
                 break;
             }
@@ -69,8 +75,6 @@ if (isset($_GET["logout"])) {
 
 <?php if (!isset($_SESSION["student_id"])): ?>
 
-    <!-- ================= LOGIN ================= -->
-
     <h2>Connexion Étudiant</h2>
 
     <?php if (isset($error_message)) echo "<p>$error_message</p>"; ?>
@@ -89,76 +93,21 @@ if (isset($_GET["logout"])) {
 
 <?php else: ?>
 
-    <!-- ================= CHAT ================= -->
+    <!-- ================= APRES LOGIN ================= -->
 
-    <h2>Bienvenue <?php echo htmlspecialchars($_SESSION["email"]); ?></h2>
+    <h2>
+        Bienvenue 
+        <?php 
+            echo htmlspecialchars($_SESSION["first_name"]) . " " . 
+                 htmlspecialchars($_SESSION["last_name"]); 
+        ?>
+    </h2>
+
+    <p>Email : <?php echo htmlspecialchars($_SESSION["email"]); ?></p>
+
     <a href="?logout=1">Déconnexion</a>
-
-    <hr>
-
-    <h3>Agent IA</h3>
-
-    <input type="text" id="question" placeholder="Posez votre question..." style="width:300px;">
-    <button onclick="sendQuestion()">Envoyer</button>
-
-    <div id="response" style="margin-top:20px; font-weight:bold;"></div>
-
-    <script>
-        function sendQuestion() {
-
-            let question = document.getElementById("question").value;
-
-            if (!question) {
-                document.getElementById("response").innerText = "Veuillez entrer une question.";
-                return;
-            }
-
-            fetch("https://n8n-9-dtnb.onrender.com/webhook-test/student-log", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    question: question,
-                    student_id: "<?php echo $_SESSION["student_id"]; ?>"
-                })
-            })
-           .then(response => response.text()) // on récupère brut
-    .then(text => {
-
-        console.log("Texte reçu :", text);
-
-        let data;
-
-        try {
-            data = JSON.parse(text); // on convertit en JSON
-        } catch (e) {
-            document.getElementById("response").innerText = text;
-            return;
-        }
-
-      if (data.image) {
-    document.getElementById("response").innerHTML =
-        "<img src='" + data.image + "' width='900' style='margin-top:20px; border:2px solid #ccc;'>";
-} else {
-            document.getElementById("response").innerText =
-                "Image non trouvée.";
-        }
-
-    })
-    .catch(error => {
-        document.getElementById("response").innerText =
-            "Erreur serveur.";
-    });
-}
-    </script>
 
 <?php endif; ?>
 
 </body>
 </html>
-
-
-
-
-
