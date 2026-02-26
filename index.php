@@ -3,7 +3,7 @@ session_start();
 
 /* ============================== CONFIGURATION SUPABASE ================================= */
 
-$project_url = "https://uhqqzlpaybcyxrepisgi.supabase.co";
+$project_url = "https://xrsebcwlbekugvpwqcii.supabase.co";
 $api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhyc2ViY3dsYmVrdWd2cHdxY2lpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTkxNzksImV4cCI6MjA4NzYzNTE3OX0.laxq2_POjoitWv8J0RQNo5SiBXvs2yzmtAaoxWje7Vo"; // ⚠️ Remplace par ta vraie clé anon publique
 
 /* ============================== LOGIN SUPABASE ================================= */
@@ -163,3 +163,4 @@ if (isset($_GET["logout"])) {
 
 </body>
 </html>
+
