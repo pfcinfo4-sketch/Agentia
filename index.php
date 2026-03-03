@@ -129,40 +129,35 @@ if (isset($_GET["logout"])) {
                     student_id: "<?php echo $_SESSION["student_id"]; ?>"
                 })
             })
-            .then(response => response.text())
-            .then(text => {
+             .then(response => response.json())
+    .then(data => {
 
-                console.log("Texte reçu :", text);
+        console.log("JSON reçu :", data);
 
-                let data;
-
-                try {
-                    data = JSON.parse(text);
-                } catch (e) {
-                    document.getElementById("response").innerText = text;
-                    return;
-                }
-
-                if (data.image) {
-                    document.getElementById("response").innerHTML =
-                        "<img src='" + data.image + "' width='900' style='margin-top:20px; border:2px solid #ccc;'>";
-                } else if (data.reply) {
-                    document.getElementById("response").innerText = data.reply;
-                } else {
-                    document.getElementById("response").innerText = "Réponse reçue.";
-                }
-
-            })
-            .catch(error => {
-                document.getElementById("response").innerText = "Erreur serveur.";
-            });
+        // Cas où n8n renvoie un tableau
+        if (Array.isArray(data) && data[0].output) {
+            document.getElementById("response").innerText = data[0].output;
         }
-    </script>
+        // Cas où n8n renvoie un objet simple
+        else if (data.output) {
+            document.getElementById("response").innerText = data.output;
+        }
+        else {
+            document.getElementById("response").innerText = "Réponse reçue.";
+        }
 
+    })
+    .catch(error => {
+        document.getElementById("response").innerText = "Erreur serveur.";
+        console.error(error);
+    });
+}
+</script>
 <?php endif; ?>
 
 </body>
 </html>
+
 
 
 
