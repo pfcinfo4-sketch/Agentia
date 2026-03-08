@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniMate · Assistant AI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assistant.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['"Public Sans"', 'sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-200 min-h-screen transition-colors duration-500 overflow-x-hidden">
+
+    <!-- التخطيط الرئيسي -->
+    <div class="flex w-full min-h-screen relative">
+        
+        <!-- ===== الجهة اليسرى ===== -->
+        <div id="assistantLeftPanel" class="assistant-panel left-panel-width border-r border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm flex flex-col h-screen sticky top-0 overflow-hidden shrink-0">
+            <div class="p-4 flex flex-col h-full">
+                
+                <!-- اللوغو والاسم -->
+                <div class="flex items-center gap-2 pb-5 border-b border-slate-200 dark:border-slate-800">
+                    <div class="w-7 h-7 flex items-center justify-center rounded-lg bg-blue-600 text-white text-xs">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <span class="text-base font-display font-bold text-slate-900 dark:text-white">UniMate</span>
+                </div>
+                
+                <!-- زر New chat -->
+                <button id="newChatBtn" class="mt-5 w-full text-left px-3 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center gap-3">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <span>New chat</span>
+                </button>
+
+                <!-- قسم OUR CHATS -->
+                <div class="mt-7 flex-1 flex flex-col min-h-0">
+                    <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 mb-2">our chats</p>
+                    <div id="chatSessionsList" class="space-y-1 text-sm overflow-y-auto flex-1">
+                        <!-- المحادثات المخزنة ستظهر هنا -->
+                    </div>
+                </div>
+
+                <!-- صورة واسم المستخدم -->
+                <div class="relative mt-4 pt-3 border-t border-slate-200 dark:border-slate-800">
+                    <button id="profileButton" class="flex items-center gap-3 w-full p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <div class="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                            <i class="fa-solid fa-user text-sm"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-sm font-medium text-slate-800 dark:text-slate-200">Alex Chen</p>
+                            <p class="text-[11px] text-slate-400 dark:text-slate-500">student</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-up ml-auto text-xs text-slate-400"></i>
+                    </button>
+
+                    <!-- النافدة المنبثقة -->
+                    <div id="profilePopover" class="profile-popover absolute bottom-full left-0 mb-2 w-full max-w-[230px] p-4 rounded-xl bg-white dark:bg-slate-800 shadow-xl border border-slate-200 dark:border-slate-700 hidden" style="z-index: 9999;">
+                        <div class="absolute -bottom-2 left-6 w-4 h-4 bg-white dark:bg-slate-800 border-r border-b border-slate-200 dark:border-slate-700 transform rotate-45"></div>
+                        <div class="text-center">
+                            <p class="text-xs text-slate-600 dark:text-slate-300 break-all mb-3 font-medium">a.chen@student.univ-temouchent.edu.dz</p>
+                            <div class="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-900/40 mx-auto flex items-center justify-center text-blue-700 dark:text-blue-300 text-lg border-2 border-white dark:border-slate-700 mb-2">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <p class="text-sm font-medium text-slate-800 dark:text-slate-200 mb-3">hello, Alex</p>
+                            <hr class="my-3 border-slate-200 dark:border-slate-700">
+                            <button id="logoutBtn" class="w-full py-2 text-sm text-red-600 dark:text-red-400 font-medium hover:bg-slate-100 dark:hover:bg-slate-700/50 rounded-lg transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== الجهة اليمنى ===== -->
+        <div id="rightPanel" class="flex-1 flex flex-col h-screen overflow-y-auto bg-slate-50/50 dark:bg-slate-950/50 transition-all">
+            
+            <!-- ===== هيدر الجهة اليمنى ===== -->
+            <nav class="sticky top-0 z-10 w-full navbar-blur border-b border-slate-200 dark:border-slate-800">
+                <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+                    <!-- الجزء الأيسر: زر toggle -->
+                    <div class="flex items-center">
+                        <button id="toggleLeftBtn" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                            <i class="fa-solid fa-angles-left text-base text-slate-500 dark:text-slate-400" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- الجزء الأيمن -->
+                    <div class="flex items-center gap-4">
+                        <!-- زر الثيم -->
+                        <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <i id="theme-icon" class="fa-solid fa-moon text-slate-500 dark:text-amber-400"></i>
+                        </button>
+                        
+                        <!-- الفاصل العمودي -->
+                        <div class="h-5 w-px bg-slate-200 dark:border-slate-800"></div>
+                        
+                        <!-- زر BACK TO HOME -->
+                        <a id="nav-back-home" href="#/" class="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[12px] font-bold rounded-lg uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap">
+                            BACK TO HOME
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- عنوان المحادثة الحالية -->
+            <div id="currentChatTitle" class="px-6 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 border-b border-slate-100 dark:border-slate-800">
+                Chat: <span id="chatTitleSpan">New conversation</span>
+            </div>
+
+            <!-- منطقة الرسائل -->
+            <div id="chatMessagesArea" class="flex-1 overflow-y-auto">
+                <!-- حاوية الرسائل مع الهوامش المناسبة -->
+                <div id="messagesContainer" class="flex flex-col space-y-4 py-6">
+                    <!-- حاوية رسالة الترحيب -->
+                    <div id="greetingContainer" class="flex flex-col items-center justify-center">
+                        <div id="greetingMessage">
+                            <h2 class="text-3xl md:text-4xl font-display font-light text-slate-400 dark:text-slate-600">How can I help you?</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- منطقة الإدخال -->
+            <div id="inputContainer" class="px-4 md:px-6 pb-5 pt-2 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent dark:from-slate-950 dark:via-slate-950 dark:to-transparent">
+                <div class="input-wrapper">
+                    <div class="relative flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm hover:shadow transition">
+                        <input type="text" id="chatInput" placeholder="ask anything" class="w-full p-4 pr-14 bg-transparent text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm rounded-2xl focus:outline-none">
+                        <button id="sendMessageBtn" class="absolute right-2 w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center transition active:scale-95 disabled:opacity-40" disabled>
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="assistant.js"></script>
+</body>
+</html>

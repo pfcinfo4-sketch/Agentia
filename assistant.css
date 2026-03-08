@@ -1,0 +1,439 @@
+/* assistant.css */
+
+body { 
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.navbar-blur {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.85);
+}
+.dark .navbar-blur {
+    background: rgba(2, 6, 23, 0.85);
+}
+
+.left-panel-width {
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.left-panel-closed {
+    display: none;
+    width: 0;
+    min-width: 0;
+    max-width: 0;
+}
+
+.right-panel-full {
+    width: 100% !important;
+}
+
+.profile-popover {
+    transform-origin: bottom left;
+    animation: popFade 0.2s ease-out;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+}
+
+@keyframes popFade {
+    from { 
+        opacity: 0; 
+        transform: scale(0.95) translateY(5px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1) translateY(0); 
+    }
+}
+
+.message-bubble {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-radius: 1.2rem 1.2rem 0.2rem 1.2rem;
+    padding: 0.75rem 1.2rem;
+    max-width: 70%;
+    width: fit-content;
+    word-break: break-word;
+    margin-bottom: 0.5rem;
+}
+.dark .message-bubble {
+    background: #1e293b;
+    color: #f1f5f9;
+}
+
+.message-bubble.assistant {
+    background: #e2e8f0;
+    border-radius: 1.2rem 1.2rem 1.2rem 0.2rem;
+}
+.dark .message-bubble.assistant {
+    background: #2d3748;
+}
+
+.message-bubble:not(.assistant) {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.message-bubble.assistant {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+#messagesContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    transition: padding 0.3s ease;
+    width: 100%;
+    max-width: calc(100% - 9.1rem); /* 5.1rem left + 4rem right */
+    margin-left: 5.1rem;
+    margin-right: 4rem;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#inputContainer {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    z-index: 20;
+    background: linear-gradient(to top, rgba(248, 250, 252, 1), rgba(248, 250, 252, 0));
+}
+.dark #inputContainer {
+    background: linear-gradient(to top, rgba(2, 6, 23, 1), rgba(2, 6, 23, 0));
+}
+
+#inputContainer .input-wrapper {
+    width: 100%;
+    max-width: calc(100% - 9.1rem); /* 5.1rem left + 4rem right */
+    margin-left: 5.1rem;
+    margin-right: 4rem;
+    transition: margin 0.3s ease, max-width 0.3s ease;
+}
+
+#inputContainer.input-center {
+    position: absolute;
+    bottom: 30%;
+    left: 0;
+    right: 0;
+    transform: none;
+}
+
+#inputContainer.input-bottom {
+    position: relative;
+    bottom: auto;
+}
+
+#greetingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+}
+#greetingMessage {
+    text-align: center;
+}
+#greetingMessage h2 {
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: #94a3b8;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+.dark #greetingMessage h2 {
+    color: #475569;
+}
+
+body.has-no-messages #currentChatTitle {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#rightPanel {
+    position: relative;
+    overflow-x: hidden;
+}
+
+body:not(.has-no-messages) #greetingContainer {
+    display: none;
+}
+
+#chatMessagesArea {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.message-bubble {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.dark .message-bubble {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.message-bubble:first-of-type {
+    margin-top: 1rem;
+}
+
+/* ==================== تنسيقات شريط التمرير ==================== */
+#chatSessionsList::-webkit-scrollbar {
+    width: 4px;
+}
+#chatSessionsList::-webkit-scrollbar-track {
+    background: transparent;
+}
+#chatSessionsList::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+#chatSessionsList::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+.dark #chatSessionsList::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+.dark #chatSessionsList::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+#chatMessagesArea::-webkit-scrollbar {
+    width: 4px;
+}
+#chatMessagesArea::-webkit-scrollbar-track {
+    background: transparent;
+}
+#chatMessagesArea::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 20px;
+}
+.dark #chatMessagesArea::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+
+#chatSessionsList,
+#chatMessagesArea {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+.dark #chatSessionsList,
+.dark #chatMessagesArea {
+    scrollbar-color: #475569 transparent;
+}
+
+#chatSessionsList {
+    min-height: 0;
+}
+
+/* ==================== تنسيقات النقاط الثلاث والقائمة ==================== */
+
+.session-wrapper {
+    position: relative;
+    margin-bottom: 2px;
+}
+
+.session-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.session-item:hover {
+    background: #f1f5f9;
+}
+.dark .session-item:hover {
+    background: #1e293b;
+}
+.session-item.active {
+    background: #e2e8f0;
+}
+.dark .session-item.active {
+    background: #334155;
+}
+
+.session-title {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    color: #334155;
+}
+.dark .session-title {
+    color: #e2e8f0;
+}
+
+.session-menu-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    color: #94a3b8;
+    opacity: 0;
+    transition: all 0.2s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.session-wrapper:hover .session-menu-btn {
+    opacity: 1;
+}
+.session-menu-btn:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+.dark .session-menu-btn:hover {
+    background: #2d3748;
+    color: #f1f5f9;
+}
+
+.session-popover {
+    position: fixed;
+    width: 150px;
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    border: 1px solid #e2e8f0;
+    z-index: 9999;
+    overflow: hidden;
+    animation: popFade 0.15s ease-out;
+}
+.dark .session-popover {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.menu-item {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.menu-item:hover {
+    background: #f1f5f9;
+}
+.dark .menu-item:hover {
+    background: #2d3748;
+}
+.menu-item.delete {
+    color: #ef4444;
+}
+.menu-item.delete:hover {
+    background: #fee2e2;
+}
+.dark .menu-item.delete:hover {
+    background: #7f1d1d;
+    color: #fecaca;
+}
+.menu-item i {
+    width: 16px;
+    font-size: 0.8rem;
+}
+
+/* ==================== تنسيقات عناوين الأقسام والإشعارات ==================== */
+
+.date-header {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    padding: 0.5rem 0.5rem 0.25rem 0.5rem;
+    margin-top: 0.5rem;
+}
+.date-header:first-of-type {
+    margin-top: 0;
+}
+.date-header i {
+    font-size: 10px;
+}
+
+.fa-bookmark {
+    font-size: 10px;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+.animate-fade-out {
+    animation: fadeOut 0.3s ease-out;
+}
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* ==================== تحسين محاذاة الرسائل مع حقل الإدخال ==================== */
+
+/* عند إخفاء اللوحة اليسرى - توسيط المحتوى */
+body.left-panel-hidden #messagesContainer {
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body.left-panel-hidden #inputContainer .input-wrapper {
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* للشاشات الصغيرة */
+@media (max-width: 1024px) {
+    #messagesContainer {
+        max-width: calc(100% - 3rem);
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+    
+    #inputContainer .input-wrapper {
+        max-width: calc(100% - 3rem);
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+    
+    body.left-panel-hidden #messagesContainer,
+    body.left-panel-hidden #inputContainer .input-wrapper {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    #messagesContainer {
+        max-width: calc(100% - 2rem);
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+    
+    #inputContainer .input-wrapper {
+        max-width: calc(100% - 2rem);
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+    
+    body.left-panel-hidden #messagesContainer,
+    body.left-panel-hidden #inputContainer .input-wrapper {
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
